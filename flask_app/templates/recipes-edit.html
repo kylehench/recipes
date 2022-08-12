@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New Recipe</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
+</head>
+<body>
+  <div class="container d-flex justify-content-between align-items-center p-3">
+    <div>
+      <h2>Edit Recipe</h2>
+    </div>
+    <div>
+      <a href="/dashboard" class="px-3">Dashboard</a>
+      <a href="/logout">Logout</a>
+    </div>
+  </div>
+  <div class="container">
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <div class="alert alert-warning">
+          {% for message in messages %}
+            <p>{{message}}</p>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+    <form action="/recipes/update/{{recipe.id}}" method="post">
+      <label for="name">Name:</label>
+      <input type="text" name="name" class="form-control mb-2" value="{{recipe.name}}">
+      <label for="description">Description:</label>
+      <input type="text" name="description" class="form-control mb-2" value="{{recipe.description}}">
+      <label for="instructions">Instructions:</label>
+      <textarea name="instructions" cols="20" rows="3" class="form-control mb-2">{{recipe.instructions}}</textarea>
+      <div class="date mb-2">
+        <div>Date Made On:</div>
+        <input type="date" name="recipe_date" class="form-control" value="{{recipe.recipe_date}}">
+      </div>
+      <div class="radio mb-2">
+        Under 30 Minutes?
+        <div class="form-check">
+          <input type="radio" name="under_30_min" value="1" class="form-check-input" {% if recipe.under_30_min==1 %}checked{% endif %}>
+          <label for="yes" class="form-check-label">Yes&nbsp;&nbsp;<label>
+          </div>
+        <div class="form-check">
+          <input type="radio" name="under_30_min" value="0" class="form-check-input" {% if recipe.under_30_min==0 %}checked{% endif %}>
+          <label for="no" class="form-check-label">No<label>
+        </div>
+      </div>
+      <input type="submit" value="Update" class="btn btn-primary">
+    </form>
+  </div>
+</body>
+</html>
